@@ -105,29 +105,29 @@ function App() {
 
               <div className="weather-details">
                 <div className="detail">
-                  <span className="label">Humidity</span>
+                  <span className="label">Humidity💦</span>
                   <strong>{weather.main.humidity}%</strong>
                 </div>
 
                 <div className="detail">
-                  <span className="label">Wind</span>
+                  <span className="label">Wind💨</span>
                   <strong>{weather.wind.speed} m/s</strong>
                 </div>
                 
                 <div className="detail">
-                  <span className="label">Sunrise</span>
+                  <span className="label">Sunrise🌅</span>
                   <strong>{new Date(weather.sys.sunrise * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</strong>
                 </div>
                 <div className="detail">
-                  <span className="label">Sunset</span>
+                  <span className="label">Sunset🌇</span>
                   <strong>{new Date(weather.sys.sunset * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</strong>
                 </div>
                 <div className="detail">
-                  <span className="label">Max Temp</span>
+                  <span className="label">Max Temp🥵</span>
                   <strong>{Math.round(weather.main.temp_max)}°C</strong>
                 </div>
                 <div className="detail">
-                  <span className="label">Min Temp</span>
+                  <span className="label">Min Temp🥶</span>
                   <strong>{Math.round(weather.main.temp_min)}°C</strong>
                 </div>
               </div>
