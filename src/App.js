@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 function App() {
-  const [city, setCity] = useState("Bangalore");
+  const [city, setCity] = useState("");
 
   const [weather, setWeather] = useState(null);
 
@@ -34,9 +34,9 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    fetchWeather();
-  }, []);
+  // useEffect(() => {
+  //   fetchWeather();
+  // }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -67,7 +67,10 @@ function App() {
     if (city) fetchWeather();
   };
 
-  console.log("Rendering App component", weather);
+  const handleClear = () => {
+    setCity(""); 
+  };
+
   return (
     <div className="app">
       <header className="app-header">
@@ -84,56 +87,78 @@ function App() {
             onChange={(e) => setCity(e.target.value)}
             aria-label="City"
           />
+          <button 
+          onClick={handleClear}
+          style={{ position: 'absolute', right: '10px', cursor: 'pointer' }}
+        >
+          ✕
+        </button>
 
           {/* <button className="btn" type="submit">
             Get Weather
           </button> */}
         </form>
 
-        <section className="results">
-          {loading && <p className="muted">Loading weather data…</p>}
+        {city ? (
+          <section className="results">
+            {loading && <p className="muted">Loading weather data…</p>}
 
-          {error && <p className="error">{error}</p>}
+            {error && <p className="error">{error}</p>}
 
-          {weather && (
-            <div className="weather-card">
-              <div className="weather-main">
-                <h2 className="city-name">{weather.name}</h2>
-                <div className="temp">{Math.round(weather.main.temp)}°C</div>
-                <div className="condition">{weather.weather[0].description}</div>
+            {weather && (
+              <div className="weather-card">
+                <div className="weather-main">
+                  <h2 className="city-name">{weather.name}</h2>
+                  <div className="temp">{Math.round(weather.main.temp)}°C</div>
+                  <div className="condition">
+                    {weather.weather[0].description}
+                  </div>
+                </div>
+
+                <div className="weather-details">
+                  <div className="detail">
+                    <span className="label">Humidity💦</span>
+                    <strong>{weather.main.humidity}%</strong>
+                  </div>
+
+                  <div className="detail">
+                    <span className="label">Wind💨</span>
+                    <strong>{weather.wind.speed} m/s</strong>
+                  </div>
+
+                  <div className="detail">
+                    <span className="label">Sunrise🌅</span>
+                    <strong>
+                      {new Date(weather.sys.sunrise * 1000).toLocaleTimeString(
+                        [],
+                        { hour: "2-digit", minute: "2-digit" },
+                      )}
+                    </strong>
+                  </div>
+                  <div className="detail">
+                    <span className="label">Sunset🌇</span>
+                    <strong>
+                      {new Date(weather.sys.sunset * 1000).toLocaleTimeString(
+                        [],
+                        { hour: "2-digit", minute: "2-digit" },
+                      )}
+                    </strong>
+                  </div>
+                  <div className="detail">
+                    <span className="label">Max Temp🥵</span>
+                    <strong>{Math.round(weather.main.temp_max)}°C</strong>
+                  </div>
+                  <div className="detail">
+                    <span className="label">Min Temp🥶</span>
+                    <strong>{Math.round(weather.main.temp_min)}°C</strong>
+                  </div>
+                </div>
               </div>
-
-              <div className="weather-details">
-                <div className="detail">
-                  <span className="label">Humidity💦</span>
-                  <strong>{weather.main.humidity}%</strong>
-                </div>
-
-                <div className="detail">
-                  <span className="label">Wind💨</span>
-                  <strong>{weather.wind.speed} m/s</strong>
-                </div>
-                
-                <div className="detail">
-                  <span className="label">Sunrise🌅</span>
-                  <strong>{new Date(weather.sys.sunrise * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</strong>
-                </div>
-                <div className="detail">
-                  <span className="label">Sunset🌇</span>
-                  <strong>{new Date(weather.sys.sunset * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</strong>
-                </div>
-                <div className="detail">
-                  <span className="label">Max Temp🥵</span>
-                  <strong>{Math.round(weather.main.temp_max)}°C</strong>
-                </div>
-                <div className="detail">
-                  <span className="label">Min Temp🥶</span>
-                  <strong>{Math.round(weather.main.temp_min)}°C</strong>
-                </div>
-              </div>
-            </div>
-          )}
-        </section>
+            )}
+          </section>
+        ) : (<div>
+          <p className="muted">Please enter the city to get realtime weather update.</p>
+        </div>)}
       </main>
     </div>
   );
